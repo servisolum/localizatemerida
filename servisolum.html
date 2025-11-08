@@ -1,0 +1,2599 @@
+<html lang="es">
+ <head>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>localizatemerida</title>
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #333;
+            overflow-x: hidden;
+            box-sizing: border-box;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 74, 173, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 0.5rem 1rem;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 -4px 20px rgba(0, 74, 173, 0.3);
+            animation: slideUp 0.8s ease;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .visit-btn {
+            background: linear-gradient(45deg, #e84e1b, #ff6b35);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(232, 78, 27, 0.3);
+        }
+
+        .visit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232, 78, 27, 0.4);
+            background: linear-gradient(45deg, #ff6b35, #e84e1b);
+        }
+
+        /* Partners Carousel */
+        .partners-section {
+            margin: 4rem 0;
+            overflow: hidden;
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 2rem 0;
+            animation: fadeInUp 1s ease 0.4s both;
+            border: 2px solid #e9ecef;
+        }
+
+        .partners-carousel {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            gap: 3rem;
+        }
+
+        .partner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            max-width: 140px;
+            max-height: 80px;
+        }
+
+        .partner-fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .partner-logo {
+            flex-shrink: 0;
+            width: 160px;
+            height: 100px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #004aad;
+            box-shadow: 0 5px 15px rgba(0, 74, 173, 0.2);
+            transition: all 0.3s ease;
+            border: 2px dashed #e9ecef;
+            position: relative;
+            overflow: hidden;
+            padding: 8px;
+        }
+
+        .partner-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-color: #004aad;
+        }
+
+        .partner-name {
+            opacity: 0.8;
+            margin-bottom: 0.2rem;
+        }
+
+        .partner-image-path {
+            font-size: 0.6rem;
+            opacity: 0.5;
+            font-style: italic;
+            background: rgba(0, 74, 173, 0.1);
+            padding: 0.1rem 0.3rem;
+            border-radius: 6px;
+        }
+
+        /* Catalog Section */
+        .catalog {
+            margin: 4rem 0;
+            animation: fadeInUp 1s ease 0.5s both;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(173px, 1fr));
+            gap: 1.15rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 74, 173, 0.1);
+            border: 2px solid #e9ecef;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 115px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 115px;
+            background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+            border: 2px dashed #adb5bd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-image-placeholder:hover {
+            border-color: #004aad;
+            color: #004aad;
+        }
+
+        .product-placeholder-text {
+            opacity: 0.8;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-image-path {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
+        }
+
+        .product-info {
+            padding: 0.86rem;
+        }
+
+        .product-title {
+            font-size: 0.69rem;
+            font-weight: 700;
+            color: #004aad;
+            margin-bottom: 0.29rem;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.52rem;
+            margin-bottom: 0.58rem;
+            line-height: 1.3;
+        }
+
+        .product-price {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #004aad;
+            margin-bottom: 0.58rem;
+        }
+
+        .product-btn {
+            background: linear-gradient(45deg, #004aad, #003d82);
+            color: white;
+            border: none;
+            padding: 0.46rem 0.86rem;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            font-size: 0.58rem;
+        }
+
+        .product-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 74, 173, 0.4);
+        }
+
+        /* Gallery Section */
+        .gallery {
+            margin: 4rem 0;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .gallery-carousel {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery-slide {
+            display: none;
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+
+        .gallery-slide.active {
+            display: block;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+            border: 3px dashed #adb5bd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .gallery-image-placeholder:hover {
+            border-color: #004aad;
+            color: #004aad;
+        }
+
+        .gallery-text {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .gallery-image-path {
+            font-size: 1rem;
+            opacity: 0.6;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .gallery-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 1rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 60px;
+        }
+
+
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            color: #004aad;
+            animation: fadeInUp 1s ease;
+            margin: 2rem 0;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #004aad;
+        }
+
+        .main-logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        .main-logo-image {
+            max-width: 500px;
+            max-height: 350px;
+            width: auto;
+            height: auto;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .main-logo-image:hover {
+            transform: scale(1.05);
+        }
+
+        .main-logo-placeholder {
+            width: 500px;
+            height: 350px;
+            background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+            border: 3px dashed #adb5bd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-radius: 20px;
+            margin: 0 auto;
+        }
+
+        .main-logo-placeholder:hover {
+            border-color: #004aad;
+            color: #004aad;
+            transform: scale(1.05);
+        }
+
+        .logo-text {
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .logo-image-path {
+            font-size: 1rem;
+            opacity: 0.6;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Contact Section Title */
+        .contact-section-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #004aad;
+            margin: 2rem 0 1rem 0;
+            position: relative;
+        }
+
+        .contact-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #e84e1b, #ff6b35);
+            border-radius: 2px;
+        }
+
+        /* Contact Buttons */
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .contact-btn:hover::before {
+            left: 100%;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .contact-icon {
+            width: 28px;
+            height: 28px;
+            transition: all 0.3s ease;
+            fill: white;
+            color: white;
+        }
+
+        .contact-btn:hover .contact-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(45deg, #004aad, #0056cc);
+            color: white;
+            border: 3px solid #e84e1b;
+        }
+
+        .whatsapp-btn:hover {
+            background: linear-gradient(45deg, #0056cc, #0066dd);
+            border-color: #ff6b35;
+        }
+
+        .instagram-btn {
+            background: linear-gradient(45deg, #004aad, #0056cc);
+            color: white;
+            border: 3px solid #e84e1b;
+        }
+
+        .instagram-btn:hover {
+            background: linear-gradient(45deg, #0056cc, #0066dd);
+            border-color: #ff6b35;
+        }
+
+        .location-btn {
+            background: linear-gradient(45deg, #004aad, #0056cc);
+            color: white;
+            border: 3px solid #e84e1b;
+        }
+
+        .location-btn:hover {
+            background: linear-gradient(45deg, #0056cc, #0066dd);
+            border-color: #ff6b35;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Services Grid */
+        .services {
+            margin: 4rem 0;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #004aad;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #e84e1b, #ff6b35);
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 74, 173, 0.1);
+            border: 2px solid #e9ecef;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #004aad, #0056cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #004aad;
+            margin-bottom: 1rem;
+        }
+
+        .service-description {
+            color: #666;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            margin: 4rem 0;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .contact h2 {
+            color: #004aad;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact p {
+            color: #333;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 4px 15px rgba(0, 74, 173, 0.1);
+        }
+
+        .contact-item:hover {
+            background: #f8f9fa;
+            transform: translateY(-5px);
+            border-color: #004aad;
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #004aad;
+        }
+
+        .contact-text {
+            color: #004aad;
+            font-weight: 600;
+        }
+
+        .social-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .social-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid #e9ecef;
+            text-decoration: none;
+            color: #004aad;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 74, 173, 0.1);
+        }
+
+        .social-item:hover {
+            background: #f8f9fa;
+            transform: translateY(-3px);
+            border-color: #004aad;
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem;
+            position: relative;
+            margin-bottom: 80px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .admin-btn {
+            background: linear-gradient(45deg, #e84e1b, #ff6b35);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(232, 78, 27, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 100;
+            font-family: Arial, sans-serif;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(232, 78, 27, 0.5);
+            background: linear-gradient(45deg, #ff6b35, #e84e1b);
+        }
+
+        .admin-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .footer-center {
+            text-align: center;
+            flex: 1;
+        }
+
+        .footer-right {
+            text-align: right;
+        }
+
+        .footer-right-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .footer-right-content p {
+            margin: 0;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            background: linear-gradient(45deg, #004aad, #0056cc);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 74, 173, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 100;
+            font-family: Arial, sans-serif;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 74, 173, 0.5);
+            background: linear-gradient(45deg, #0056cc, #0066dd);
+        }
+
+        .scroll-to-top:active {
+            transform: translateY(-1px);
+        }
+
+        .developer-link {
+            color: #004aad;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .developer-link:hover {
+            color: #003d82;
+            text-decoration: underline;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #f8f9fa;
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .admin-header {
+            background: #312682;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-nav {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: #312682;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: #4a3c9a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(49, 38, 130, 0.3);
+        }
+
+        .admin-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-section {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .admin-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-header h2 {
+            color: #312682;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .add-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #312682;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #312682;
+            box-shadow: 0 0 0 3px rgba(49, 38, 130, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            background: #312682;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #4a3c9a;
+            transform: translateY(-2px);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .data-table th {
+            background: #312682;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-progress {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-delivered {
+            background: #e2e3e5;
+            color: #383d41;
+        }
+
+        .action-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin: 0 0.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .action-btn.edit {
+            background: #28a745;
+        }
+
+        .action-btn.delete {
+            background: #dc3545;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(45deg, #312682, #4a3c9a);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .stat-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 3000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        .modal-header {
+            background: #312682;
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Animations */
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .service-card {
+                padding: 1.5rem;
+            }
+
+            .contact {
+                padding: 2rem 1rem;
+            }
+
+            .admin-nav {
+                padding: 1rem;
+            }
+
+            .nav-btn {
+                font-size: 0.8rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .admin-content {
+                padding: 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+
+            .footer-right-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .admin-btn, .scroll-to-top {
+                width: 55px;
+                height: 55px;
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 1rem 0.5rem;
+            }
+
+            .hero {
+                padding: 2rem 0;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .service-card {
+                padding: 1rem;
+            }
+
+            .service-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .contact {
+                padding: 1.5rem 0.5rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+
+            .modal-body {
+                padding: 1rem;
+            }
+
+            .contact-buttons {
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+
+            .contact-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+                gap: 0.6rem;
+            }
+
+            .contact-icon {
+                width: 24px;
+                height: 24px;
+            }
+        }
+    </style> <!-- Header -->
+  <header class="header">
+   <div class="header-content">
+    <div class="logo"><span>Localizate Merida</span>
+    </div><a href="https://servisolum.github.io/localizatemerida/" class="visit-btn" id="visitBtn">Visítanos</a>
+   </div>
+  </header><!-- Main Content -->
+  <main class="main-content"><!-- Logo Principal Section -->
+   <section class="hero">
+    <div class="main-logo-container"><img src="img/servisolumlogo.png" alt="Logo Principal TechRepair Pro" class="main-logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+     <div class="main-logo-placeholder" style="display: none;"><span class="logo-text">Logo Principal</span> <small class="logo-image-path">img/logo/logo-principal.png</small>
+     </div>
+    </div><!-- Contact Buttons Section -->
+    <h2 class="contact-section-title">Contactos</h2>
+    <div class="contact-buttons"><a href="https://wa.me/584247055706" target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp-btn">
+      <svg class="contact-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516" />
+      </svg><span>WhatsApp</span> </a> <a href="https://instagram.com/servisolum" target="_blank" rel="noopener noreferrer" class="contact-btn instagram-btn">
+      <svg class="contact-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+      </svg><span>Instagram</span> </a> <a href="https://maps.app.goo.gl/T7m3u2HKBD6NnULY6" target="_blank" rel="noopener noreferrer" class="contact-btn location-btn">
+      <svg class="contact-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+      </svg><span>Ubicación</span> </a>
+    </div>
+   </section><!-- Services Section -->
+   <section class="services" id="services">
+    <h2 class="section-title">Nuestros Servicios</h2>
+    <div class="services-grid">
+     <div class="service-card">
+      <div class="service-icon">
+       💻
+      </div>
+      <h3 class="service-title">Reparación de Computadoras</h3>
+      <p class="service-description">Diagnóstico y reparación completa de PCs de escritorio. Problemas de hardware, software, virus y optimización del sistema.</p>
+     </div>
+     <div class="service-card">
+      <div class="service-icon">
+       💻
+      </div>
+      <h3 class="service-title">Reparación de Laptops</h3>
+      <p class="service-description">Servicio especializado en laptops: pantallas, teclados, baterías, cargadores, bisagras y problemas de sobrecalentamiento.</p>
+     </div>
+     <div class="service-card">
+      <div class="service-icon">
+       📺
+      </div>
+      <h3 class="service-title">Reparación de TV y Monitores</h3>
+      <p class="service-description">Reparación de televisores LCD, LED, OLED y monitores de computadora. Problemas de imagen, sonido y conectividad.</p>
+     </div>
+     <div class="service-card">
+      <div class="service-icon">
+       🎮
+      </div>
+      <h3 class="service-title">Consolas de Videojuegos</h3>
+      <p class="service-description">Reparación de PlayStation, Xbox, Nintendo Switch. Problemas de lectura, sobrecalentamiento y controles.</p>
+     </div>
+     <div class="service-card">
+      <div class="service-icon">
+       🖨�?
+      </div>
+      <h3 class="service-title">Reparación de Impresoras</h3>
+      <p class="service-description">Servicio técnico para impresoras láser, tinta, multifuncionales. Problemas de impresión, atascos y conectividad.</p>
+     </div>
+     <div class="service-card">
+      <div class="service-icon">
+       🛒
+      </div>
+      <h3 class="service-title">Venta de Equipos y Repuestos</h3>
+      <p class="service-description">Amplio catálogo de equipos nuevos y usados, repuestos originales y compatibles para todas las marcas.</p>
+     </div>
+    </div>
+   </section><!-- Gallery Section -->
+   <section class="gallery" id="gallery">
+    <h2 class="section-title">Galería del Taller</h2>
+    <div class="gallery-carousel">
+     <div class="gallery-slide active"><img src="img/locals3.jpeg" alt="Entrada Principal del Taller" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="gallery-image-placeholder" style="display: none;"><span class="gallery-text">Entrada Principal</span> <small class="gallery-image-path">img/galeria/entrada-principal.jpg</small>
+      </div>
+     </div>
+     <div class="gallery-slide"><img src="img/locals1.jpeg" alt="Área de Reparaciones" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="gallery-image-placeholder" style="display: none;"><span class="gallery-text">Área de Reparaciones</span> <small class="gallery-image-path">img/galeria/area-reparaciones.jpg</small>
+      </div>
+     </div>
+     <div class="gallery-slide"><img src="img/locals2.jpeg" alt="Zona de Diagnóstico" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="gallery-image-placeholder" style="display: none;"><span class="gallery-text">Zona de Diagnóstico</span> <small class="gallery-image-path">img/galeria/zona-diagnostico.jpg</small>
+      </div>
+     </div>
+     <div class="gallery-slide"><img src="img/locals4.jpeg" alt="Almacén de Repuestos" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="gallery-image-placeholder" style="display: none;"><span class="gallery-text">Almacén de Repuestos</span> <small class="gallery-image-path">img/galeria/almacen-repuestos.jpg</small>
+      </div>
+     </div>
+     
+     
+     <div class="gallery-nav"><span class="gallery-dot active" data-slide="1"></span> <span class="gallery-dot" data-slide="2"></span> <span class="gallery-dot" data-slide="3"></span> <span class="gallery-dot" data-slide="4"></span> <span class="gallery-dot" data-slide="5"></span> <span class="gallery-dot" data-slide="6"></span>
+     </div>
+    </div>
+   </section><!-- Catalog Section -->
+   <section class="catalog" id="catalog">
+    <h2 class="section-title">Catálogo de Productos</h2>
+    <div class="catalog-grid">
+     <div class="product-card"><img src="img/pros1.jpeg" alt="Memoria RAM DDR4 8GB" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="product-image-placeholder" style="display: none;"><span class="product-placeholder-text">Memoria RAM</span> <small class="product-image-path">img/productos/memoria-ram.jpg</small>
+      </div>
+      <div class="product-info">
+       <h3 class="product-title">Impresoras</h3>
+       <p class="product-description">impresoras epson con sistema de tinta continua </p>
+       <div class="product-price">
+        desde $199.99
+       </div><button class="product-btn" data-product="Memoria RAM DDR4 8GB"> Consultar Precio </button>
+      </div>
+     </div>
+     <div class="product-card"><img src="img/pros2.jpeg" alt="Disco SSD 500GB" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="product-image-placeholder" style="display: none;"><span class="product-placeholder-text">Disco SSD</span> <small class="product-image-path">img/productos/disco-ssd.jpg</small>
+      </div>
+      <div class="product-info">
+       <h3 class="product-title">Disco SSD 128GB</h3>
+       <p class="product-description">Unidad de estado sólido para mayor velocidad y confiabilidad</p>
+       <div class="product-price">
+        desde $21.99
+       </div><button class="product-btn" data-product="Disco SSD 500GB"> Consultar Precio </button>
+      </div>
+     </div>
+     <div class="product-card"><img src="img/pros3.jpeg" alt="Fuente de Poder 650W" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="product-image-placeholder" style="display: none;"><span class="product-placeholder-text">Fuente de Poder</span> <small class="product-image-path">img/productos/fuente-poder.jpg</small>
+      </div>
+      <div class="product-info">
+       <h3 class="product-title">Pendrive </h3>
+       <p class="product-description">dispositivos de almacenamiento de alta capacidad </p>
+       <div class="product-price">
+        desde $11.99
+       </div><button class="product-btn" data-product="Fuente de Poder 650W"> Consultar Precio </button>
+      </div>
+     </div>
+     <div class="product-card"><img src="img/pros4.jpeg" alt="Tarjeta Gráfica GTX" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="product-image-placeholder" style="display: none;"><span class="product-placeholder-text">Tarjeta Gráfica</span> <small class="product-image-path">img/productos/tarjeta-grafica.jpg</small>
+      </div>
+      <div class="product-info">
+       <h3 class="product-title">router</h3>
+       <p class="product-description">varidades de router para frecuencia de intenet de fibra </p>
+       <div class="product-price">
+        $29.99
+       </div><button class="product-btn" data-product="Tarjeta Gráfica GTX"> Consultar Precio </button>
+      </div>
+     </div>
+     <div class="product-card"><img src="img/pros5.jpeg" alt="Procesador Intel i5" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="product-image-placeholder" style="display: none;"><span class="product-placeholder-text">Procesador</span> <small class="product-image-path">img/productos/procesador.jpg</small>
+      </div>
+      <div class="product-info">
+       <h3 class="product-title">dispositivos smart tv </h3>
+       <p class="product-description">dispositivos smart tv para repotenciar tu tv </p>
+       <div class="product-price">
+        desde $39.99
+       </div><button class="product-btn" data-product="Procesador Intel i5"> Consultar Precio </button>
+      </div>
+     </div>
+     <div class="product-card"><img src="img/pros6.jpeg" alt="Placa Madre ATX" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="product-image-placeholder" style="display: none;"><span class="product-placeholder-text">Placa Madre</span> <small class="product-image-path">img/productos/placa-madre.jpg</small>
+      </div>
+      <div class="product-info">
+       <h3 class="product-title">Nintendo Switch</h3>
+       <p class="product-description">consolas chipeada con 10 juegos intalados </p>
+       <div class="product-price">
+        $439.99
+       </div><button class="product-btn" data-product="Placa Madre ATX"> Consultar Precio </button>
+      </div>
+     </div>
+     
+     
+    </div>
+   </section>
+  </main><!-- Partners Section -->
+  <section class="partners-section">
+   <h2 class="section-title">Nuestros Aliados Comerciales</h2>
+   <div class="partners-carousel">
+    <div class="partner-logo"><img src="img/logo1.png" alt="ASUS" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">ASUS</span> <small class="partner-image-path">img/logos/asus.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo2.png" alt="HP" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">HP</span> <small class="partner-image-path">img/logos/hp.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo3.png" alt="Dell" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Dell</span> <small class="partner-image-path">img/logos/dell.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo4.png" alt="Lenovo" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Lenovo</span> <small class="partner-image-path">img/logos/lenovo.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo5.png" alt="Acer" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Acer</span> <small class="partner-image-path">img/logos/acer.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo6.png" alt="MSI" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">MSI</span> <small class="partner-image-path">img/logos/msi.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo7.png" alt="Samsung" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Samsung</span> <small class="partner-image-path">img/logos/samsung.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo8.png" alt="LG" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">LG</span> <small class="partner-image-path">img/logos/lg.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo9.png" alt="Sony" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Sony</span> <small class="partner-image-path">img/logos/sony.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo10.png" alt="Toshiba" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Toshiba</span> <small class="partner-image-path">img/logos/toshiba.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo11.png" alt="Canon" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Canon</span> <small class="partner-image-path">img/logos/canon.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo12.png" alt="Epson" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Epson</span> <small class="partner-image-path">img/logos/epson.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo13.png" alt="Brother" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Brother</span> <small class="partner-image-path">img/logos/brother.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo17.png" alt="Xerox" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Xerox</span> <small class="partner-image-path">img/logos/xerox.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo18.png" alt="Intel" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">Intel</span> <small class="partner-image-path">img/logos/intel.png</small>
+     </div>
+    </div>
+    <div class="partner-logo"><img src="img/logo19.png" alt="AMD" class="partner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="partner-fallback" style="display: none;"><span class="partner-name">AMD</span> <small class="partner-image-path">img/logos/amd.png</small>
+     </div>
+    </div>
+    
+    
+    
+   </div>
+  </section><!-- Footer -->
+  <footer class="footer">
+   <div class="footer-content">
+    <div class="footer-left"><button class="admin-btn" id="adminButton"> ADMIN </button>
+    </div>
+    <div class="footer-center">
+     <p>© 2024 TechRepair Pro. Todos los derechos reservados.</p>
+    </div>
+    <div class="footer-right">
+     <div class="footer-right-content">
+      <p>Desarrollado por <a href="https://localizatemerida.com" target="_blank" rel="noopener noreferrer" class="developer-link" style="color: #e84e1b;">LocalizateMérida 🌐</a></p><button class="scroll-to-top" id="scrollTopButton"> INICIO </button>
+     </div>
+    </div>
+   </div>
+  </footer><!-- Admin Panel -->
+  <div class="admin-panel" id="adminPanel">
+   <div class="admin-header">
+    <h1>Panel de Administración</h1><button class="close-btn" id="closeAdminButton">×</button>
+   </div>
+   <nav class="admin-nav"><button class="nav-btn active" data-section="dashboard">📊 Dashboard</button> <button class="nav-btn" data-section="repairs">🔧 Reparaciones</button> <button class="nav-btn" data-section="inventory">📦 Inventario</button> <button class="nav-btn" data-section="finances">💰 Finanzas</button>
+   </nav>
+   <div class="admin-content"><!-- Dashboard Section -->
+    <section class="admin-section active" id="dashboard">
+     <div class="section-header">
+      <h2>Dashboard</h2>
+     </div>
+     <div class="stats-grid">
+      <div class="stat-card">
+       <div class="stat-number" id="totalRepairs">
+        0
+       </div>
+       <div class="stat-label">
+        Reparaciones Totales
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-number" id="pendingRepairs">
+        0
+       </div>
+       <div class="stat-label">
+        Pendientes
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-number" id="totalRevenue">
+        $0
+       </div>
+       <div class="stat-label">
+        Ingresos del Mes
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-number" id="inventoryItems">
+        0
+       </div>
+       <div class="stat-label">
+        Productos en Stock
+       </div>
+      </div>
+     </div>
+    </section><!-- Repairs Section -->
+    <section class="admin-section" id="repairs">
+     <div class="section-header">
+      <h2>Gestión de Reparaciones</h2><button class="add-btn" id="addRepairButton">+ Nueva Reparación</button>
+     </div>
+     <div class="table-container">
+      <table class="data-table">
+       <thead>
+        <tr>
+         <th>ID</th>
+         <th>Cliente</th>
+         <th>Equipo</th>
+         <th>Problema</th>
+         <th>Estado</th>
+         <th>Fecha Entrada</th>
+         <th>Precio</th>
+         <th>Acciones</th>
+        </tr>
+       </thead>
+       <tbody id="repairsTableBody"><!-- Los datos se cargarán dinámicamente -->
+       </tbody>
+      </table>
+     </div>
+    </section><!-- Inventory Section -->
+    <section class="admin-section" id="inventory">
+     <div class="section-header">
+      <h2>Inventario</h2><button class="add-btn" id="addInventoryButton">+ Agregar Producto</button>
+     </div>
+     <div class="table-container">
+      <table class="data-table">
+       <thead>
+        <tr>
+         <th>Código</th>
+         <th>Producto</th>
+         <th>Categoría</th>
+         <th>Stock</th>
+         <th>Precio Compra</th>
+         <th>Precio Venta</th>
+         <th>Acciones</th>
+        </tr>
+       </thead>
+       <tbody id="inventoryTableBody"><!-- Los datos se cargarán dinámicamente -->
+       </tbody>
+      </table>
+     </div>
+    </section><!-- Finances Section -->
+    <section class="admin-section" id="finances">
+     <div class="section-header">
+      <h2>Control Financiero</h2><button class="add-btn" id="addTransactionButton">+ Nueva Transacción</button>
+     </div>
+     <div class="stats-grid">
+      <div class="stat-card">
+       <div class="stat-number" id="totalIncome">
+        $0
+       </div>
+       <div class="stat-label">
+        Ingresos Totales
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-number" id="totalExpenses">
+        $0
+       </div>
+       <div class="stat-label">
+        Gastos Totales
+       </div>
+      </div>
+      <div class="stat-card">
+       <div class="stat-number" id="netProfit">
+        $0
+       </div>
+       <div class="stat-label">
+        Ganancia Neta
+       </div>
+      </div>
+     </div>
+     <div class="table-container">
+      <table class="data-table">
+       <thead>
+        <tr>
+         <th>Fecha</th>
+         <th>Tipo</th>
+         <th>Descripción</th>
+         <th>Monto</th>
+         <th>Categoría</th>
+         <th>Acciones</th>
+        </tr>
+       </thead>
+       <tbody id="transactionsTableBody"><!-- Los datos se cargarán dinámicamente -->
+       </tbody>
+      </table>
+     </div>
+    </section>
+   </div>
+  </div><!-- Modal -->
+  <div class="modal" id="modal">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h3 class="modal-title" id="modalTitle">Título del Modal</h3><button class="close-btn" id="closeModalButton">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"><!-- El contenido se cargará dinámicamente -->
+    </div>
+   </div>
+  </div>
+  <script>
+        // Datos de la aplicación
+        let repairs = [];
+        let inventory = [];
+        let transactions = [];
+
+        // Variables para la galería
+        let currentSlideIndex = 1;
+        let galleryInterval;
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            updateDashboard();
+            renderTables();
+            initializeGallery();
+            initializeEventListeners();
+        });
+
+        // Inicializar event listeners
+        function initializeEventListeners() {
+            // Botón de administrador
+            const adminButton = document.getElementById('adminButton');
+            if (adminButton) {
+                adminButton.addEventListener('click', showAdminPanel);
+            }
+
+            // Botón de cerrar admin panel
+            const closeAdminButton = document.getElementById('closeAdminButton');
+            if (closeAdminButton) {
+                closeAdminButton.addEventListener('click', hideAdminPanel);
+            }
+
+            // Botón de scroll to top
+            const scrollTopButton = document.getElementById('scrollTopButton');
+            if (scrollTopButton) {
+                scrollTopButton.addEventListener('click', scrollToTop);
+            }
+
+            // Botones de navegación del admin
+            const navButtons = document.querySelectorAll('.nav-btn');
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    if (section) {
+                        showSection(section, this);
+                    }
+                });
+            });
+
+            // Botones de agregar
+            const addRepairButton = document.getElementById('addRepairButton');
+            if (addRepairButton) {
+                addRepairButton.addEventListener('click', showAddRepairModal);
+            }
+
+            const addInventoryButton = document.getElementById('addInventoryButton');
+            if (addInventoryButton) {
+                addInventoryButton.addEventListener('click', showAddInventoryModal);
+            }
+
+            const addTransactionButton = document.getElementById('addTransactionButton');
+            if (addTransactionButton) {
+                addTransactionButton.addEventListener('click', showAddTransactionModal);
+            }
+
+            // Botón de cerrar modal
+            const closeModalButton = document.getElementById('closeModalButton');
+            if (closeModalButton) {
+                closeModalButton.addEventListener('click', closeModal);
+            }
+
+            // Dots de la galería
+            const galleryDots = document.querySelectorAll('.gallery-dot');
+            galleryDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const slideNumber = parseInt(this.getAttribute('data-slide'));
+                    if (slideNumber) {
+                        currentSlide(slideNumber);
+                    }
+                });
+            });
+
+            // Botones de productos
+            const productButtons = document.querySelectorAll('.product-btn');
+            productButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productName = this.getAttribute('data-product');
+                    if (productName) {
+                        contactForProduct(productName);
+                    }
+                });
+            });
+
+            // Cerrar modal al hacer clic fuera
+            const modal = document.getElementById('modal');
+            if (modal) {
+                modal.addEventListener('click', function(event) {
+                    if (event.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+        }
+
+        // Funciones del panel de administración
+        function showAdminPanel() {
+            // Crear modal de clave de acceso
+            const passwordModal = document.createElement('div');
+            passwordModal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.7);
+                z-index: 3500;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(5px);
+            `;
+            
+            passwordModal.innerHTML = `
+                <div style="
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    width: 90%;
+                    max-width: 400px;
+                    text-align: center;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                ">
+                    <h3 style="color: #312682; margin-bottom: 1.5rem; font-size: 1.5rem;">Acceso de Administrador</h3>
+                    <p style="color: #666; margin-bottom: 1.5rem;">Ingresa la clave de acceso:</p>
+                    <input type="password" id="adminPassword" placeholder="Clave de acceso" style="
+                        width: 100%;
+                        padding: 1rem;
+                        border: 2px solid #e1e8ed;
+                        border-radius: 10px;
+                        font-size: 1.1rem;
+                        text-align: center;
+                        margin-bottom: 1.5rem;
+                        box-sizing: border-box;
+                    ">
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button id="cancelAccess" style="
+                            background: #6c757d;
+                            color: white;
+                            border: none;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 10px;
+                            cursor: pointer;
+                            font-weight: 600;
+                        ">Cancelar</button>
+                        <button id="confirmAccess" style="
+                            background: #312682;
+                            color: white;
+                            border: none;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 10px;
+                            cursor: pointer;
+                            font-weight: 600;
+                        ">Acceder</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(passwordModal);
+            
+            const passwordInput = document.getElementById('adminPassword');
+            const confirmButton = document.getElementById('confirmAccess');
+            const cancelButton = document.getElementById('cancelAccess');
+            
+            // Enfocar el input
+            passwordInput.focus();
+            
+            // Función para verificar la clave
+            function checkPassword() {
+                const enteredPassword = passwordInput.value;
+                if (enteredPassword === '1235') {
+                    // Clave correcta - abrir panel de administración
+                    document.body.removeChild(passwordModal);
+                    const adminPanel = document.getElementById('adminPanel');
+                    if (adminPanel) {
+                        adminPanel.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    }
+                } else {
+                    // Clave incorrecta
+                    passwordInput.style.borderColor = '#dc3545';
+                    passwordInput.style.backgroundColor = '#ffe6e6';
+                    passwordInput.value = '';
+                    passwordInput.placeholder = 'Clave incorrecta - Intenta de nuevo';
+                    
+                    setTimeout(() => {
+                        passwordInput.style.borderColor = '#e1e8ed';
+                        passwordInput.style.backgroundColor = 'white';
+                        passwordInput.placeholder = 'Clave de acceso';
+                    }, 2000);
+                }
+            }
+            
+            // Event listeners
+            confirmButton.addEventListener('click', checkPassword);
+            
+            cancelButton.addEventListener('click', () => {
+                document.body.removeChild(passwordModal);
+            });
+            
+            passwordInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+            
+            // Cerrar al hacer clic fuera del modal
+            passwordModal.addEventListener('click', (e) => {
+                if (e.target === passwordModal) {
+                    document.body.removeChild(passwordModal);
+                }
+            });
+        }
+
+        function hideAdminPanel() {
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function showSection(sectionName, buttonElement) {
+            // Ocultar todas las secciones
+            document.querySelectorAll('.admin-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remover clase active de todos los botones
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Mostrar la sección seleccionada
+            const targetSection = document.getElementById(sectionName);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+            
+            // Activar el botón correspondiente
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
+        }
+
+        // Funciones de reparaciones
+        function showAddRepairModal() {
+            document.getElementById('modalTitle').textContent = 'Nueva Reparación';
+            document.getElementById('modalBody').innerHTML = `
+                <form id="repairForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Cliente</label>
+                            <input type="text" class="form-input" name="customer" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Teléfono</label>
+                            <input type="tel" class="form-input" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Equipo</label>
+                            <select class="form-select" name="device" required>
+                                <option value="">Seleccionar equipo</option>
+                                <option value="Computadora">Computadora</option>
+                                <option value="Laptop">Laptop</option>
+                                <option value="TV">TV</option>
+                                <option value="Monitor">Monitor</option>
+                                <option value="Consola">Consola</option>
+                                <option value="Impresora">Impresora</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Marca/Modelo</label>
+                            <input type="text" class="form-input" name="model" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Descripción del Problema</label>
+                        <textarea class="form-textarea" name="problem" required></textarea>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Precio Estimado</label>
+                            <input type="number" class="form-input" name="price" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" name="status" required>
+                                <option value="Pendiente">Pendiente</option>
+                                <option value="En Progreso">En Progreso</option>
+                                <option value="Completado">Completado</option>
+                                <option value="Entregado">Entregado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Agregar Reparación</button>
+                </form>
+            `;
+            
+            // Agregar event listener al formulario
+            const repairForm = document.getElementById('repairForm');
+            if (repairForm) {
+                repairForm.addEventListener('submit', addRepair);
+            }
+            
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function addRepair(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const repair = {
+                id: Date.now(),
+                customer: formData.get('customer'),
+                phone: formData.get('phone'),
+                device: formData.get('device'),
+                model: formData.get('model'),
+                problem: formData.get('problem'),
+                price: parseFloat(formData.get('price')),
+                status: formData.get('status'),
+                dateIn: new Date().toLocaleDateString(),
+                dateOut: null
+            };
+
+            repairs.push(repair);
+            saveData();
+            renderRepairsTable();
+            updateDashboard();
+            closeModal();
+            showNotification('Reparación agregada exitosamente', 'success');
+        }
+
+        // Funciones de inventario
+        function showAddInventoryModal() {
+            document.getElementById('modalTitle').textContent = 'Agregar Producto';
+            document.getElementById('modalBody').innerHTML = `
+                <form id="inventoryForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Código</label>
+                            <input type="text" class="form-input" name="code" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Producto</label>
+                            <input type="text" class="form-input" name="product" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Categoría</label>
+                            <select class="form-select" name="category" required>
+                                <option value="">Seleccionar categoría</option>
+                                <option value="Repuestos PC">Repuestos PC</option>
+                                <option value="Repuestos Laptop">Repuestos Laptop</option>
+                                <option value="Accesorios">Accesorios</option>
+                                <option value="Consumibles">Consumibles</option>
+                                <option value="Equipos">Equipos</option>
+                                <option value="Herramientas">Herramientas</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Stock</label>
+                            <input type="number" class="form-input" name="stock" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Precio Compra</label>
+                            <input type="number" class="form-input" name="buyPrice" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Precio Venta</label>
+                            <input type="number" class="form-input" name="sellPrice" step="0.01" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Agregar Producto</button>
+                </form>
+            `;
+            
+            // Agregar event listener al formulario
+            const inventoryForm = document.getElementById('inventoryForm');
+            if (inventoryForm) {
+                inventoryForm.addEventListener('submit', addInventoryItem);
+            }
+            
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function addInventoryItem(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const item = {
+                id: Date.now(),
+                code: formData.get('code'),
+                product: formData.get('product'),
+                category: formData.get('category'),
+                stock: parseInt(formData.get('stock')),
+                buyPrice: parseFloat(formData.get('buyPrice')),
+                sellPrice: parseFloat(formData.get('sellPrice'))
+            };
+
+            inventory.push(item);
+            saveData();
+            renderInventoryTable();
+            updateDashboard();
+            closeModal();
+            showNotification('Producto agregado exitosamente', 'success');
+        }
+
+        // Funciones de finanzas
+        function showAddTransactionModal() {
+            document.getElementById('modalTitle').textContent = 'Nueva Transacción';
+            document.getElementById('modalBody').innerHTML = `
+                <form id="transactionForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Tipo</label>
+                            <select class="form-select" name="type" required>
+                                <option value="">Seleccionar tipo</option>
+                                <option value="Ingreso">Ingreso</option>
+                                <option value="Gasto">Gasto</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Monto</label>
+                            <input type="number" class="form-input" name="amount" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Categoría</label>
+                            <select class="form-select" name="category" required>
+                                <option value="">Seleccionar categoría</option>
+                                <option value="Reparaciones">Reparaciones</option>
+                                <option value="Ventas">Ventas</option>
+                                <option value="Compras">Compras</option>
+                                <option value="Gastos Operativos">Gastos Operativos</option>
+                                <option value="Alquiler">Alquiler</option>
+                                <option value="Servicios">Servicios</option>
+                                <option value="Otros">Otros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" class="form-input" name="date" value="${new Date().toISOString().split('T')[0]}" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Descripción</label>
+                        <textarea class="form-textarea" name="description" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Agregar Transacción</button>
+                </form>
+            `;
+            
+            // Agregar event listener al formulario
+            const transactionForm = document.getElementById('transactionForm');
+            if (transactionForm) {
+                transactionForm.addEventListener('submit', addTransaction);
+            }
+            
+            document.getElementById('modal').style.display = 'block';
+        }
+
+        function addTransaction(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            const transaction = {
+                id: Date.now(),
+                type: formData.get('type'),
+                amount: parseFloat(formData.get('amount')),
+                category: formData.get('category'),
+                description: formData.get('description'),
+                date: formData.get('date')
+            };
+
+            transactions.push(transaction);
+            saveData();
+            renderTransactionsTable();
+            updateDashboard();
+            closeModal();
+            showNotification('Transacción agregada exitosamente', 'success');
+        }
+
+        // Funciones de renderizado
+        function renderRepairsTable() {
+            const tbody = document.getElementById('repairsTableBody');
+            if (tbody) {
+                tbody.innerHTML = repairs.map(repair => `
+                    <tr>
+                        <td>#${repair.id.toString().slice(-4)}</td>
+                        <td>${repair.customer}</td>
+                        <td>${repair.device} ${repair.model}</td>
+                        <td>${repair.problem.substring(0, 50)}...</td>
+                        <td><span class="status-badge status-${repair.status.toLowerCase().replace(' ', '')}">${repair.status}</span></td>
+                        <td>${repair.dateIn}</td>
+                        <td>$${repair.price.toFixed(2)}</td>
+                        <td>
+                            <button class="action-btn edit" onclick="editRepair(${repair.id})">Editar</button>
+                            <button class="action-btn delete" onclick="deleteRepair(${repair.id})">Eliminar</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderInventoryTable() {
+            const tbody = document.getElementById('inventoryTableBody');
+            if (tbody) {
+                tbody.innerHTML = inventory.map(item => `
+                    <tr>
+                        <td>${item.code}</td>
+                        <td>${item.product}</td>
+                        <td>${item.category}</td>
+                        <td>${item.stock}</td>
+                        <td>$${item.buyPrice.toFixed(2)}</td>
+                        <td>$${item.sellPrice.toFixed(2)}</td>
+                        <td>
+                            <button class="action-btn edit" onclick="editInventoryItem(${item.id})">Editar</button>
+                            <button class="action-btn delete" onclick="deleteInventoryItem(${item.id})">Eliminar</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderTransactionsTable() {
+            const tbody = document.getElementById('transactionsTableBody');
+            if (tbody) {
+                tbody.innerHTML = transactions.map(transaction => `
+                    <tr>
+                        <td>${transaction.date}</td>
+                        <td><span class="status-badge ${transaction.type === 'Ingreso' ? 'status-completed' : 'status-pending'}">${transaction.type}</span></td>
+                        <td>${transaction.description}</td>
+                        <td>$${transaction.amount.toFixed(2)}</td>
+                        <td>${transaction.category}</td>
+                        <td>
+                            <button class="action-btn edit" onclick="editTransaction(${transaction.id})">Editar</button>
+                            <button class="action-btn delete" onclick="deleteTransaction(${transaction.id})">Eliminar</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function renderTables() {
+            renderRepairsTable();
+            renderInventoryTable();
+            renderTransactionsTable();
+        }
+
+        // Actualizar dashboard
+        function updateDashboard() {
+            const totalRepairsElement = document.getElementById('totalRepairs');
+            const pendingRepairsElement = document.getElementById('pendingRepairs');
+            const inventoryItemsElement = document.getElementById('inventoryItems');
+            const totalRevenueElement = document.getElementById('totalRevenue');
+            const totalIncomeElement = document.getElementById('totalIncome');
+            const totalExpensesElement = document.getElementById('totalExpenses');
+            const netProfitElement = document.getElementById('netProfit');
+
+            if (totalRepairsElement) totalRepairsElement.textContent = repairs.length;
+            if (pendingRepairsElement) pendingRepairsElement.textContent = repairs.filter(r => r.status === 'Pendiente').length;
+            if (inventoryItemsElement) inventoryItemsElement.textContent = inventory.reduce((sum, item) => sum + item.stock, 0);
+            
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            const monthlyRevenue = transactions
+                .filter(t => t.type === 'Ingreso' && new Date(t.date).getMonth() === currentMonth && new Date(t.date).getFullYear() === currentYear)
+                .reduce((sum, t) => sum + t.amount, 0);
+            
+            if (totalRevenueElement) totalRevenueElement.textContent = `$${monthlyRevenue.toFixed(2)}`;
+            
+            const totalIncome = transactions.filter(t => t.type === 'Ingreso').reduce((sum, t) => sum + t.amount, 0);
+            const totalExpenses = transactions.filter(t => t.type === 'Gasto').reduce((sum, t) => sum + t.amount, 0);
+            
+            if (totalIncomeElement) totalIncomeElement.textContent = `$${totalIncome.toFixed(2)}`;
+            if (totalExpensesElement) totalExpensesElement.textContent = `$${totalExpenses.toFixed(2)}`;
+            if (netProfitElement) netProfitElement.textContent = `$${(totalIncome - totalExpenses).toFixed(2)}`;
+        }
+
+        // Funciones de utilidad
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#28a745' : '#dc3545'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                z-index: 4000;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Funciones de almacenamiento
+        function saveData() {
+            try {
+                localStorage.setItem('techrepair_repairs', JSON.stringify(repairs));
+                localStorage.setItem('techrepair_inventory', JSON.stringify(inventory));
+                localStorage.setItem('techrepair_transactions', JSON.stringify(transactions));
+            } catch (error) {
+                console.error('Error saving data:', error);
+            }
+        }
+
+        function loadData() {
+            try {
+                const savedRepairs = localStorage.getItem('techrepair_repairs');
+                const savedInventory = localStorage.getItem('techrepair_inventory');
+                const savedTransactions = localStorage.getItem('techrepair_transactions');
+                
+                if (savedRepairs) repairs = JSON.parse(savedRepairs);
+                if (savedInventory) inventory = JSON.parse(savedInventory);
+                if (savedTransactions) transactions = JSON.parse(savedTransactions);
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Funciones de eliminación
+        function deleteRepair(id) {
+            if (confirm('¿Estás seguro de eliminar esta reparación?')) {
+                repairs = repairs.filter(r => r.id !== id);
+                saveData();
+                renderRepairsTable();
+                updateDashboard();
+                showNotification('Reparación eliminada', 'success');
+            }
+        }
+
+        function deleteInventoryItem(id) {
+            if (confirm('¿Estás seguro de eliminar este producto?')) {
+                inventory = inventory.filter(i => i.id !== id);
+                saveData();
+                renderInventoryTable();
+                updateDashboard();
+                showNotification('Producto eliminado', 'success');
+            }
+        }
+
+        function deleteTransaction(id) {
+            if (confirm('¿Estás seguro de eliminar esta transacción?')) {
+                transactions = transactions.filter(t => t.id !== id);
+                saveData();
+                renderTransactionsTable();
+                updateDashboard();
+                showNotification('Transacción eliminada', 'success');
+            }
+        }
+
+        // Función para contactar por producto
+        function contactForProduct(productName) {
+            const message = `Hola, estoy interesado en el producto: ${productName}`;
+            const whatsappUrl = `https://wa.me/15551234567?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Inicializar galería
+        function initializeGallery() {
+            showSlide(currentSlideIndex);
+            startGalleryAutoplay();
+        }
+
+        // Iniciar reproducción automática
+        function startGalleryAutoplay() {
+            galleryInterval = setInterval(() => {
+                currentSlideIndex++;
+                if (currentSlideIndex > 6) {
+                    currentSlideIndex = 1;
+                }
+                showSlide(currentSlideIndex);
+            }, 4000);
+        }
+
+        // Detener reproducción automática
+        function stopGalleryAutoplay() {
+            if (galleryInterval) {
+                clearInterval(galleryInterval);
+            }
+        }
+
+        // Mostrar slide específico
+        function currentSlide(n) {
+            stopGalleryAutoplay();
+            currentSlideIndex = n;
+            showSlide(currentSlideIndex);
+            
+            setTimeout(() => {
+                startGalleryAutoplay();
+            }, 8000);
+        }
+
+        // Función para mostrar slide
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.gallery-slide');
+            const dots = document.querySelectorAll('.gallery-dot');
+            
+            if (n > slides.length) {
+                currentSlideIndex = 1;
+                n = 1;
+            }
+            if (n < 1) {
+                currentSlideIndex = slides.length;
+                n = slides.length;
+            }
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            if (slides[n - 1]) {
+                slides[n - 1].classList.add('active');
+            }
+            if (dots[n - 1]) {
+                dots[n - 1].classList.add('active');
+            }
+        }
+
+        // Función de scroll to top
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Funciones de edición (placeholders)
+        function editRepair(id) {
+            showNotification('Función de edición en desarrollo', 'info');
+        }
+
+        function editInventoryItem(id) {
+            showNotification('Función de edición en desarrollo', 'info');
+        }
+
+        function editTransaction(id) {
+            showNotification('Función de edición en desarrollo', 'info');
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99b71032e6a567db',t:'MTc2MjYyNTgwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
