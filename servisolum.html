@@ -6,10 +6,13 @@
   <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body>
-  
+  <div class="logo"><img src="img/logo/logo-header.png" alt="Logo TechRepair Pro" class="logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+   <div class="logo-placeholder" style="display: none;"><span>Logo</span>
+   </div><span>TechRepair Pro</span>
+  </div>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>localizatemerida</title>
+  <title>TechRepair Pro - Servicio Técnico Especializado</title>
   <link rel="icon" href="images/favicon.ico" type="image/x-icon">
   <style>
         * {
@@ -404,7 +407,7 @@
         }
 
         .main-logo-image {
-            max-width: 500px;
+            max-width: 100%;
             max-height: 350px;
             width: auto;
             height: auto;
@@ -417,7 +420,8 @@
         }
 
         .main-logo-placeholder {
-            width: 500px;
+            width: 100%;
+            max-width: 500px;
             height: 350px;
             background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
             border: 3px dashed #adb5bd;
@@ -770,7 +774,7 @@
         .footer {
             background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             position: relative;
             margin-bottom: 80px;
         }
@@ -1426,16 +1430,37 @@
                 width: 24px;
                 height: 24px;
             }
+
+            .main-logo-image {
+                max-height: 250px;
+            }
+
+            .main-logo-placeholder {
+                height: 250px;
+                font-size: 1.2rem;
+            }
+
+            .footer {
+                padding: 1rem;
+            }
+
+            .footer-content {
+                gap: 1rem;
+            }
+
+            .footer-right-content {
+                gap: 0.5rem;
+            }
         }
     </style> <!-- Header -->
   <header class="header">
    <div class="header-content">
-    <div class="logo"><span>Localizate Merida</span>
-    </div><a href="https://servisolum.github.io/localizatemerida/" class="visit-btn" id="visitBtn">Visítanos</a>
+    <div class="logo"><span>TechRepair Pro</span>
+    </div><a href="#" class="visit-btn" id="visitBtn">Visítanos</a>
    </div>
   </header><!-- Main Content -->
   <main class="main-content"><!-- Logo Principal Section -->
-   <section class="hero">
+  <section class="hero">
     <div class="main-logo-container"><img src="img/servisolumlogo.png" alt="Logo Principal TechRepair Pro" class="main-logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
      <div class="main-logo-placeholder" style="display: none;"><span class="logo-text">Logo Principal</span> <small class="logo-image-path">img/logo/logo-principal.png</small>
      </div>
@@ -1449,7 +1474,8 @@
       <svg class="contact-icon" viewbox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
       </svg><span>Ubicación</span> </a>
     </div>
-   </section><!-- Services Section -->
+   </section>
+   <!-- Services Section -->
    <section class="services" id="services">
     <h2 class="section-title">Nuestros Servicios</h2>
     <div class="services-grid">
@@ -1667,7 +1693,8 @@
     
     
    </div>
-  </section><!-- Footer -->
+  </section>
+   <!-- Footer -->
   <footer class="footer">
    <div class="footer-content">
     <div class="footer-left"><button class="admin-btn" id="adminButton"> ADMIN </button>
@@ -2595,5 +2622,5 @@
             showNotification('Función de edición en desarrollo', 'info');
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99b71032e6a567db',t:'MTc2MjYyNTgwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99b78bc7646c67db',t:'MTc2MjYzMDg2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
