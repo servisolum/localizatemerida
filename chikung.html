@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="es">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Chi Kung App</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: #2c3e50;
+      overflow-x: hidden;
+      height: 100%;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    .app-container {
+      height: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+      background: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .app-container {
+        max-width: 1200px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, #ff2800 0%, #ff4500 100%);
+      color: white;
+      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(255, 40, 0, 0.3);
+      position: relative;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-container {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      border: 3px solid #daa520;
+      flex-shrink: 0;
+    }
+
+    .logo-placeholder {
+      font-size: 2rem;
+      color: #ff2800;
+    }
+
+    .logo-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .header-text {
+      flex: 1;
+      text-align: left;
+    }
+
+    .app-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0 0 0.25rem 0;
+    }
+
+    .welcome-text {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    /* Content Area */
+    .content-area {
+      height: calc(100% - 140px);
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 11rem;
+    }
+
+    @media (min-width: 768px) {
+      .content-area {
+        padding: 2rem;
+        padding-bottom: 13rem;
+      }
+    }
+
+    .tab-content {
+      display: none;
+      padding: 1rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Home Tab */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-slider {
+      display: flex;
+      transition: transform 0.3s ease-out;
+      width: 100%;
+      touch-action: pan-y;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .info-slide {
+      min-width: 100%;
+      flex-shrink: 0;
+      padding: 0 0.5rem;
+    }
+
+    .info-text {
+      color: #6c757d;
+      line-height: 1.7;
+      font-size: 0.95rem;
+      margin: 0 0 1rem 0;
+      text-align: justify;
+    }
+
+    .benefits-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .benefit-text {
+      font-size: 0.9rem;
+      color: #2c3e50;
+      line-height: 1.6;
+    }
+
+    .info-section {
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .info-section {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+      }
+    }
+
+    .info-box {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      text-align: center;
+    }
+
+    @media (min-width: 768px) {
+      .info-box {
+        padding: 3rem 2.5rem;
+      }
+    }
+
+    .info-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .info-box-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+    }
+
+    .info-box-text {
+      font-size: 0.95rem;
+      color: #6c757d;
+      line-height: 1.7;
+      text-align: justify;
+      margin: 0;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .benefits-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+      }
+    }
+
+    .benefit-item {
+      background: linear-gradient(135deg, rgba(255, 40, 0, 0.05) 0%, rgba(218, 165, 32, 0.05) 100%);
+      padding: 0.75rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #2c3e50;
+      border: 1px solid rgba(218, 165, 32, 0.2);
+      text-align: center;
+    }
+
+    .gallery-section {
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .gallery-section {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+      }
+    }
+
+    .carousel-container {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 3px solid #daa520;
+    }
+
+    .carousel-slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      background: white;
+      position: relative;
+    }
+
+    .gallery-placeholder {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, rgba(255, 40, 0, 0.1) 0%, rgba(218, 165, 32, 0.1) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .gallery-image {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-caption {
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #2c3e50;
+      background: white;
+    }
+
+    .carousel-indicators {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.5rem;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: white;
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+      padding: 1.5rem 1rem;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border: 2px solid #daa520;
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ff2800;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: #6c757d;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .quick-actions {
+      margin-top: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 1rem;
+      padding-left: 0.5rem;
+    }
+
+    .action-button {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e9ecef;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .action-button:active {
+      transform: scale(0.98);
+      background: #f8f9fa;
+    }
+
+    .action-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #ff2800 0%, #daa520 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .action-text {
+      flex: 1;
+    }
+
+    .action-title {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.25rem;
+    }
+
+    .action-subtitle {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+
+    /* Classes Tab */
+    .day-selector {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+      padding: 0.25rem;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .day-button {
+      min-width: 60px;
+      padding: 0.75rem 1rem;
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #6c757d;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .day-button.active {
+      background: linear-gradient(135deg, #ff2800 0%, #daa520 100%);
+      color: white;
+      border-color: #daa520;
+    }
+
+    .class-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid #daa520;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      #classes-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+    }
+
+    .class-time {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ff2800;
+      margin-bottom: 0.5rem;
+    }
+
+    .class-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .class-description {
+      font-size: 0.85rem;
+      color: #6c757d;
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+
+    .class-level {
+      display: inline-block;
+      background: rgba(218, 165, 32, 0.1);
+      color: #daa520;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Profile Tab */
+    .profile-header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(218, 165, 32, 0.05) 100%);
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #ff2800 0%, #daa520 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: white;
+      margin: 0 auto 1rem;
+      border: 3px solid #daa520;
+    }
+
+    .profile-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-level {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+
+    .progress-section {
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .progress-section {
+        max-width: 800px;
+        margin: 0 auto 1.5rem;
+      }
+
+      .profile-header {
+        max-width: 800px;
+        margin: 0 auto 1.5rem;
+      }
+    }
+
+    .progress-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      background: white;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (min-width: 768px) {
+      .progress-item {
+        padding: 1.5rem;
+      }
+    }
+
+    .progress-info {
+      flex: 1;
+    }
+
+    .progress-title {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.25rem;
+    }
+
+    .progress-subtitle {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+
+    .progress-value {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ff2800;
+    }
+
+    /* Contact Tab */
+    .contact-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (min-width: 768px) {
+      .contact-card {
+        max-width: 800px;
+        margin: 0 auto 1.5rem;
+        padding: 2rem;
+      }
+    }
+
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .contact-method:active {
+      transform: scale(0.98);
+      background: #e9ecef;
+    }
+
+    .contact-method:last-child {
+      margin-bottom: 0;
+    }
+
+    .contact-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #ff2800 0%, #daa520 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: white;
+    }
+
+    .contact-info {
+      flex: 1;
+    }
+
+    .contact-title {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.25rem;
+    }
+
+    .contact-detail {
+      font-size: 0.85rem;
+      color: #6c757d;
+    }
+
+    /* Sponsor Banner */
+    .sponsor-banner {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 100%;
+      background: linear-gradient(135deg, #ff2800 0%, #dc2400 100%);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 999;
+    }
+
+    @media (min-width: 768px) {
+      .sponsor-banner {
+        max-width: 1200px;
+        padding: 1rem 1.5rem;
+      }
+    }
+
+    .sponsor-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1;
+    }
+
+    .sponsor-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      flex-shrink: 0;
+    }
+
+    .sponsor-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .sponsor-text {
+      flex: 1;
+    }
+
+    .sponsor-label {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.15rem;
+    }
+
+    .sponsor-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: white;
+    }
+
+    .sponsor-button {
+      background: white;
+      color: #ff2800;
+      padding: 0.6rem 1.25rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .sponsor-button:active {
+      transform: scale(0.95);
+    }
+
+    @media (min-width: 768px) {
+      .sponsor-button {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 100%;
+      background: white;
+      border-top: 1px solid #e9ecef;
+      display: flex;
+      justify-content: space-around;
+      padding: 0.75rem 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+    }
+
+    @media (min-width: 768px) {
+      .bottom-nav {
+        max-width: 1200px;
+        padding: 1rem 0;
+        bottom: 70px;
+      }
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 0.5rem;
+      border-radius: 8px;
+      min-width: 60px;
+    }
+
+    .nav-item:active {
+      transform: scale(0.95);
+    }
+
+    .nav-item.active {
+      color: #ff2800;
+    }
+
+    .nav-icon {
+      font-size: 1.3rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-item.active .nav-icon {
+      transform: scale(1.1);
+    }
+
+    .nav-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #6c757d;
+    }
+
+    .nav-item.active .nav-label {
+      color: #ff2800;
+      font-weight: 600;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 375px) {
+      .stats-grid {
+        gap: 0.75rem;
+      }
+      
+      .stat-card {
+        padding: 1.25rem 0.75rem;
+      }
+      
+      .day-selector {
+        gap: 0.25rem;
+      }
+      
+      .day-button {
+        min-width: 50px;
+        padding: 0.5rem 0.75rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-container"><!-- Header -->
+   <header class="app-header">
+    <div class="logo-container"><img src="img/logo18.png" alt="Logo Escuela" class="logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+     <div class="logo-placeholder" style="display:none;">
+      🧘
+     </div>
+    </div>
+    <div class="header-text">
+     <h1 class="app-title" id="school-name">Escuela de Chi Kung</h1>
+     <p class="welcome-text" id="welcome-message">Bienvenido a tu práctica diaria</p>
+    </div>
+   </header><!-- Content Area -->
+   <div class="content-area"><!-- Home Tab -->
+    <div class="tab-content active" id="home-tab">
+     <div class="info-section">
+      <div class="info-box">
+       <div class="info-icon">
+        🧘‍♂️
+       </div>
+       <h3 class="info-box-title">¿Qué es el Chi Kung?</h3>
+       <p class="info-box-text">El Chi Kung (o Qigong) es una práctica milenaria china que combina movimientos suaves, respiración consciente y meditación para cultivar y equilibrar la energía vital (Chi). Esta disciplina mejora la salud física, mental y espiritual a través de ejercicios que armonizan cuerpo y mente.</p>
+      </div>
+     </div>
+     <div class="info-section">
+      <div class="info-box">
+       <div class="info-icon">
+        ✨
+       </div>
+       <h3 class="info-box-title">Beneficios del Chi Kung</h3>
+       <div class="benefits-grid">
+        <div class="benefit-item">
+         💪 Fortalece el cuerpo
+        </div>
+        <div class="benefit-item">
+         🧠 Calma la mente
+        </div>
+        <div class="benefit-item">
+         ⚡ Aumenta energía
+        </div>
+        <div class="benefit-item">
+         😌 Reduce estrés
+        </div>
+        <div class="benefit-item">
+         ❤️ Mejora circulación
+        </div>
+        <div class="benefit-item">
+         ⚖️ Equilibrio interno
+        </div>
+        <div class="benefit-item">
+         🕊️ Paz mental
+        </div>
+        <div class="benefit-item">
+         🤸 Flexibilidad
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="gallery-section">
+      <h3 class="section-title">Galería</h3>
+      <div class="carousel-container">
+       <div class="carousel-slides" id="carousel-slides">
+        <div class="carousel-slide"><img src="img/chi2.jpeg" alt="Práctica 1" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+         <div class="gallery-placeholder" style="display:none;">
+          🧘‍♀️
+         </div>
+         <div class="gallery-caption">
+          Práctica Matutina
+         </div>
+        </div>
+        <div class="carousel-slide"><img src="img/foto2.png" alt="Práctica 2" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+         <div class="gallery-placeholder" style="display:none;">
+          🌅
+         </div>
+         <div class="gallery-caption">
+          Meditación al Amanecer
+         </div>
+        </div>
+        <div class="carousel-slide"><img src="img/foto3.jpg" alt="Práctica 3" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+         <div class="gallery-placeholder" style="display:none;">
+          🏞️
+         </div>
+         <div class="gallery-caption">
+          Clase al Aire Libre
+         </div>
+        </div>
+        <div class="carousel-slide"><img src="img/foto4.png" alt="Práctica 4" class="gallery-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+         <div class="gallery-placeholder" style="display:none;">
+          👥
+         </div>
+         <div class="gallery-caption">
+          Grupo Avanzado
+         </div>
+        </div>
+       </div>
+       <div class="carousel-indicators" id="carousel-indicators">
+        <div class="carousel-dot active"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+        <div class="carousel-dot"></div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Classes Tab -->
+    <div class="tab-content" id="classes-tab">
+     <div class="day-selector"><button class="day-button" onclick="selectDay(this, 'lunes')">LUN</button> <button class="day-button" onclick="selectDay(this, 'martes')">MAR</button> <button class="day-button" onclick="selectDay(this, 'miercoles')">MIÉ</button> <button class="day-button" onclick="selectDay(this, 'jueves')">JUE</button> <button class="day-button" onclick="selectDay(this, 'viernes')">VIE</button> <button class="day-button active" onclick="selectDay(this, 'sabado')">SÁB</button> <button class="day-button" onclick="selectDay(this, 'domingo')">DOM</button>
+     </div>
+     <div id="classes-container">
+      <div class="class-card">
+       <div class="class-time">
+        8:00 AM - 9:00 AM
+       </div>
+       <div class="class-name">
+        Práctica de Chi Kung
+       </div>
+       <div class="class-description">
+        Una hora de práctica libre abierta para todos los niveles. Ven a experimentar los beneficios del Chi Kung.
+       </div><span class="class-level">Entrada Libre</span>
+      </div>
+     </div>
+    </div><!-- Profile Tab -->
+    <div class="tab-content" id="profile-tab">
+     <div class="profile-header">
+      <div class="profile-avatar">
+       🧘
+      </div>
+      <div class="profile-name">
+       Mi Perfil
+      </div>
+      <div class="profile-level">
+       Practicante Intermedio
+      </div>
+     </div>
+     <div class="progress-section">
+      <h3 class="section-title">Mi Progreso</h3>
+      <div class="progress-item">
+       <div class="progress-info">
+        <div class="progress-title">
+         Clases Completadas
+        </div>
+        <div class="progress-subtitle">
+         Este mes
+        </div>
+       </div>
+       <div class="progress-value">
+        12/20
+       </div>
+      </div>
+      <div class="progress-item">
+       <div class="progress-info">
+        <div class="progress-title">
+         Días Consecutivos
+        </div>
+        <div class="progress-subtitle">
+         Racha actual
+        </div>
+       </div>
+       <div class="progress-value">
+        7
+       </div>
+      </div>
+      <div class="progress-item">
+       <div class="progress-info">
+        <div class="progress-title">
+         Tiempo Total
+        </div>
+        <div class="progress-subtitle">
+         Horas practicadas
+        </div>
+       </div>
+       <div class="progress-value">
+        24h
+       </div>
+      </div>
+      <div class="progress-item">
+       <div class="progress-info">
+        <div class="progress-title">
+         Nivel Actual
+        </div>
+        <div class="progress-subtitle">
+         Progreso al siguiente nivel
+        </div>
+       </div>
+       <div class="progress-value">
+        75%
+       </div>
+      </div>
+     </div>
+    </div><!-- Contact Tab -->
+    <div class="tab-content" id="contact-tab">
+     <div class="contact-card">
+      <h3 class="section-title">Contacta con Nosotros</h3>
+      <div class="contact-method" onclick="makeCall()">
+       <div class="contact-icon">
+        📞
+       </div>
+       <div class="contact-info">
+        <div class="contact-title">
+         Llamar
+        </div>
+        <div class="contact-detail" id="contact-phone">
+         04247055706
+        </div>
+       </div>
+      </div>
+      <div class="contact-method" onclick="openWhatsApp()">
+       <div class="contact-icon">
+        💬
+       </div>
+       <div class="contact-info">
+        <div class="contact-title">
+         WhatsApp
+        </div>
+        <div class="contact-detail">
+         Enviar mensaje directo
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="contact-card">
+      <h3 class="section-title">Ubicación</h3>
+      <div class="contact-method">
+       <div class="contact-icon">
+        📍
+       </div>
+       <div class="contact-info">
+        <div class="contact-title">
+         Nuestra Escuela
+        </div>
+        <div class="contact-detail">
+         Calle de la Armonía, 123<br>
+         28001 Madrid, España
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Sponsor Banner -->
+   <div class="sponsor-banner">
+    <div class="sponsor-info">
+     
+     <div class="sponsor-text">
+      
+      <div class="sponsor-name">
+       Localízate Mérida
+      </div>
+     </div>
+    </div><button class="sponsor-button" onclick="visitSponsor()">Visítanos</button>
+   </div><!-- Bottom Navigation -->
+   <nav class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('home')">
+     <div class="nav-icon">
+      🏠
+     </div>
+     <div class="nav-label">
+      Inicio
+     </div>
+    </div>
+    <div class="nav-item" onclick="switchTab('classes')">
+     <div class="nav-icon">
+      📅
+     </div>
+     <div class="nav-label">
+      Prácticas
+     </div>
+    </div>
+    <div class="nav-item" onclick="switchTab('contact')">
+     <div class="nav-icon">
+      📞
+     </div>
+     <div class="nav-label">
+      Contacto
+     </div>
+    </div>
+   </nav>
+  </div>
+  <script>
+    const defaultConfig = {
+      school_name: "Escuela de Chi Kung",
+      welcome_message: "Bienvenido a tu práctica diaria",
+      contact_phone: "+584247055706",
+      contact_whatsapp: "+584247055706",
+      primary_color: "#ff2800",
+      accent_color: "#daa520",
+      text_color: "#2c3e50",
+      font_family: "Inter",
+      font_size: 16
+    };
+
+    async function onConfigChange(config) {
+      const schoolName = document.getElementById('school-name');
+      const welcomeMessage = document.getElementById('welcome-message');
+      const contactPhone = document.getElementById('contact-phone');
+
+      if (schoolName) schoolName.textContent = config.school_name || defaultConfig.school_name;
+      if (welcomeMessage) welcomeMessage.textContent = config.welcome_message || defaultConfig.welcome_message;
+      if (contactPhone) contactPhone.textContent = config.contact_phone || defaultConfig.contact_phone;
+
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+
+      document.body.style.color = textColor;
+      document.body.style.fontFamily = `${fontFamily}, -apple-system, BlinkMacSystemFont, sans-serif`;
+      document.body.style.fontSize = `${fontSize}px`;
+
+      // Update primary color elements
+      const headerElements = document.querySelectorAll('.app-header');
+      headerElements.forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${primaryColor} 0%, #ff6b6b 100%)`;
+      });
+
+      const iconElements = document.querySelectorAll('.action-icon, .contact-icon, .profile-avatar');
+      iconElements.forEach(el => {
+        el.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${accentColor} 100%)`;
+      });
+
+      // Update accent color elements
+      const accentElements = document.querySelectorAll('.stat-number, .class-time, .progress-value, .nav-item.active, .nav-item.active .nav-label');
+      accentElements.forEach(el => {
+        el.style.color = primaryColor;
+      });
+
+      const borderElements = document.querySelectorAll('.stat-card, .gallery-item, .profile-avatar, .logo-container');
+      borderElements.forEach(el => {
+        el.style.borderColor = accentColor;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["school_name", config.school_name || defaultConfig.school_name],
+        ["welcome_message", config.welcome_message || defaultConfig.welcome_message],
+        ["contact_phone", config.contact_phone || defaultConfig.contact_phone],
+        ["contact_whatsapp", config.contact_whatsapp || defaultConfig.contact_whatsapp]
+      ]);
+    }
+
+    // Info slider touch functionality
+    let infoSliderState = {
+      currentIndex: 0,
+      startX: 0,
+      currentX: 0,
+      isDragging: false,
+      startTime: 0
+    };
+
+    function initInfoSlider() {
+      const slider = document.getElementById('info-slider');
+      if (!slider) return;
+
+      slider.addEventListener('touchstart', handleInfoTouchStart, { passive: true });
+      slider.addEventListener('touchmove', handleInfoTouchMove, { passive: false });
+      slider.addEventListener('touchend', handleInfoTouchEnd, { passive: true });
+    }
+
+    function handleInfoTouchStart(e) {
+      infoSliderState.startX = e.touches[0].clientX;
+      infoSliderState.currentX = infoSliderState.startX;
+      infoSliderState.isDragging = true;
+      infoSliderState.startTime = Date.now();
+      
+      const slider = document.getElementById('info-slider');
+      slider.style.transition = 'none';
+    }
+
+    function handleInfoTouchMove(e) {
+      if (!infoSliderState.isDragging) return;
+      
+      e.preventDefault();
+      infoSliderState.currentX = e.touches[0].clientX;
+      const diff = infoSliderState.currentX - infoSliderState.startX;
+      const slider = document.getElementById('info-slider');
+      const baseTransform = -infoSliderState.currentIndex * 100;
+      const dragPercent = (diff / slider.offsetWidth) * 100;
+      
+      slider.style.transform = `translateX(${baseTransform + dragPercent}%)`;
+    }
+
+    function handleInfoTouchEnd(e) {
+      if (!infoSliderState.isDragging) return;
+      
+      infoSliderState.isDragging = false;
+      const slider = document.getElementById('info-slider');
+      slider.style.transition = 'transform 0.3s ease-out';
+      
+      const diff = infoSliderState.currentX - infoSliderState.startX;
+      const threshold = slider.offsetWidth * 0.2;
+      const timeDiff = Date.now() - infoSliderState.startTime;
+      const velocity = Math.abs(diff) / timeDiff;
+      
+      if (Math.abs(diff) > threshold || velocity > 0.5) {
+        if (diff > 0 && infoSliderState.currentIndex > 0) {
+          infoSliderState.currentIndex--;
+        } else if (diff < 0 && infoSliderState.currentIndex < 1) {
+          infoSliderState.currentIndex++;
+        }
+      }
+      
+      slider.style.transform = `translateX(-${infoSliderState.currentIndex * 100}%)`;
+    }
+
+    // Navigation functions
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected tab
+      document.getElementById(tabName + '-tab').classList.add('active');
+      
+      // Update navigation
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      
+      event.currentTarget.classList.add('active');
+    }
+
+    function selectDay(button, day) {
+      document.querySelectorAll('.day-button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      button.classList.add('active');
+      
+      // Here you could load different classes for each day
+      loadClassesForDay(day);
+    }
+
+    function loadClassesForDay(day) {
+      const container = document.getElementById('classes-container');
+      
+      const schedules = {
+        lunes: [],
+        martes: [],
+        miercoles: [],
+        jueves: [],
+        viernes: [],
+        sabado: [
+          { time: '8:00 AM - 9:00 AM', name: 'Práctica de Chi Kung', description: 'Una hora de práctica libre abierta para todos los niveles. Ven a experimentar los beneficios del Chi Kung.', level: 'Entrada Libre' }
+        ],
+        domingo: []
+      };
+
+      const daySchedule = schedules[day] || [];
+      
+      if (daySchedule.length === 0) {
+        container.innerHTML = `
+          <div class="class-card" style="text-align: center; border-left: none; background: linear-gradient(135deg, rgba(255, 40, 0, 0.05) 0%, rgba(218, 165, 32, 0.05) 100%);">
+            <div class="info-icon" style="font-size: 3rem; margin-bottom: 1rem;">📅</div>
+            <div class="class-name" style="margin-bottom: 0.5rem;">No hay prácticas este día</div>
+            <div class="class-description">Las prácticas se realizan los sábados a las 8:00 AM</div>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = daySchedule.map(cls => `
+        <div class="class-card">
+          <div class="class-time">${cls.time}</div>
+          <div class="class-name">${cls.name}</div>
+          <div class="class-description">${cls.description}</div>
+          <span class="class-level">${cls.level}</span>
+        </div>
+      `).join('');
+    }
+
+    // Contact functions
+    function makeCall() {
+      const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+      const phone = config.contact_phone || defaultConfig.contact_phone;
+      window.open(`tel:${phone}`, '_self');
+    }
+
+    function openWhatsApp() {
+      const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+      const whatsapp = config.contact_whatsapp || defaultConfig.contact_whatsapp;
+      const message = encodeURIComponent('Hola, me interesa información sobre las clases de Chi Kung');
+      window.open(`https://wa.me/${whatsapp}?text=${message}`, '_blank');
+    }
+
+    // Sponsor function
+    function visitSponsor() {
+      window.open('https://servisolum.github.io/localizatemerida/', '_blank', 'noopener,noreferrer');
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Gallery Carousel functionality
+    let currentSlide = 0;
+    const totalSlides = 4;
+    let carouselInterval;
+
+    function updateCarousel() {
+      const slidesContainer = document.getElementById('carousel-slides');
+      const dots = document.querySelectorAll('.carousel-dot');
+      
+      if (slidesContainer) {
+        slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+      }
+      
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateCarousel();
+    }
+
+    function startCarousel() {
+      carouselInterval = setInterval(nextSlide, 3000);
+    }
+
+    function stopCarousel() {
+      if (carouselInterval) {
+        clearInterval(carouselInterval);
+      }
+    }
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up navigation
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach((item, index) => {
+        item.addEventListener('click', function() {
+          const tabs = ['home', 'classes', 'contact'];
+          switchTab(tabs[index]);
+          
+          navItems.forEach(nav => nav.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // Load initial classes
+      loadClassesForDay('sabado');
+
+      // Initialize info slider
+      initInfoSlider();
+
+      // Start gallery carousel
+      startCarousel();
+
+      // Pause gallery carousel on touch
+      const carouselContainer = document.querySelector('.carousel-container');
+      if (carouselContainer) {
+        carouselContainer.addEventListener('touchstart', stopCarousel);
+        carouselContainer.addEventListener('touchend', startCarousel);
+      }
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99c7f74430dadab9',t:'MTc2MjgwMzA0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
