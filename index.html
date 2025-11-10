@@ -887,12 +887,24 @@
        <p class="business-description">servicio tecnico especializado en reparaciones de computadoras laptop tv consolas de video juegos ...</p>
        <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfileservisolum('servisolum 2')">Ver Perfil del Negocio</button>
        </div>
-      </div><!-- Ice Cream Shop Example -->
-      <!-- Store Example -->
-      <!-- Service Example -->
-      <!-- Entertainment Example -->
-      
-     </div>
+      </div><!-- final servisolum -->
+	  
+	  <!-- servisolum -->
+      <div class="business-card" data-category="salud">
+       <div class="business-header">
+        <div class="business-logo"><img src="img/logo18.png" alt="chikung" onerror="this.style.display='none'; this.parentElement.innerHTML='️🔧';">
+        </div>
+        <div class="business-info">
+         <h1 class="business-name">anahata</h1>
+        </div>
+       </div>
+       <p class="business-description">"Te invitamos a descubrir el arte milenario del Chikun. Aprende a respirar, a calmar tu mente y a liberar el estrés diario a través de movimientos suaves y fluidos. ¡Recupera tu energía y bienestar!"</p>
+       <div class="business-actions"><button class="profile-btn" onclick="showBusinessProfilechikung('chikung 3')">Ver Perfil del Negocio</button>
+       </div>
+      </div>
+	  
+	  <!-- inicio hotel -->
+     
     </section>
    </div><!-- Partners Carousel -->
    <section class="partners-section">
@@ -1213,8 +1225,14 @@
 		function showBusinessProfileservisolum(businessName) {
             // Enlazar directamente a perfil.html con el nombre del negocio como parámetro
             const encodedBusinessName = encodeURIComponent(businessName);
-            window.location.href = `servisolum.html?negocio=${encodedBusinessName}`;
+            window.location.href = `perfilservisolum.html?negocio=${encodedBusinessName}`;
         }
+function showBusinessProfilechikung(businessName) {
+            // Enlazar directamente a perfil.html con el nombre del negocio como parámetro
+            const encodedBusinessName = encodeURIComponent(businessName);
+            window.location.href = `chikung.html?negocio=${encodedBusinessName}`;
+        }
+
 
         function scrollToTop() {
             window.scrollTo({
@@ -1227,6 +1245,4 @@
         document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'993b59c4f0c0a557',t:'MTc2MTMyODU4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-
 </html>
-
